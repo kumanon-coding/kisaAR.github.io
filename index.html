@@ -25,10 +25,54 @@
 
         <a-marker type="pattern" url="./assets/pattern-QR_781246.patt">
          <!--　モデルを呼び出す　--> 
-            <a-entity gltf-model="#bottle" scale="0.1 0.1 0.1" rotation="0 0 0"></a-entity>
+            <a-entity
+             gltf-model="#bottle" scale="0.1 0.1 0.1" 
+             rotation="0 0 0"
+             gesture-handler
+             >
+            </a-entity>
         </a-marker>
          <!--　カメラの追加　-->
         <a-entity camera></a-entity>
-    </a-scene>   
+    </a-scene>  
+    <script>
+        AFRAME.registerComponent('gesture-handler', {
+          schema: {
+            enabled: {default: true},
+            rotationFactor: {default: 5}
+          },
+          init: function () {
+            this.handleRotation = this.handleRotation.bind(this);
+            this.isDragging = false;
+            this.previousMousePosition = null;
+      
+            this.el.sceneEl.canvas.addEventListener('mousedown', (event) => {
+              this.isDragging = true;
+            });
+      
+            this.el.sceneEl.canvas.addEventListener('mousemove', (event) => {
+              if (!this.isDragging) return;
+              this.handleRotation(event);
+            });
+      
+            this.el.sceneEl.canvas.addEventListener('mouseup', () => {
+              this.isDragging = false;
+              this.previousMousePosition = null;
+            });
+          },
+          handleRotation: function (event) {
+            const deltaX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+            const deltaY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+      
+            const rotation = this.el.getAttribute('rotation');
+            this.el.setAttribute('rotation', {
+              x: rotation.x + deltaY * this.data.rotationFactor * 0.1,
+              y: rotation.y + deltaX * this.data.rotationFactor * 0.1,
+              z: rotation.z
+            });
+          }
+        });
+      </script>
+       
 </body>
 </html>
