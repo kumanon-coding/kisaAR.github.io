@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- A-Frameを読み込む -->
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <!-- AR.jsを読み込む -->
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <title>WebAR</title>
+    <style>
+        body{
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <a-scene embedded arjs vr-mode-ui="enabled: false;"  renderer="logarithmicDepthBuffer: true;">
+        <!--　モデルの読み込み　-->
+        <a-assets>
+            <a-asset-item id="bottle" src="./assets/bottle.glb"></a-asset-item>
+        </a-assets>
+         <!--　マーカーの読み込み　-->
+
+        <a-marker type="pattern" url="">
+         <!--　モデルを呼び出す　--> 
+            <a-entity gltf-model="#bottle" scale="0.1 0.1 0.1" rotation="0 0 0"></a-entity>
+        </a-marker>
+         <!--　カメラの追加　-->
+        <a-entity camera></a-entity>
+    </a-scene>   
+</body>
+</html>
